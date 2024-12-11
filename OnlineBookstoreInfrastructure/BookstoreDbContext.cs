@@ -15,10 +15,11 @@ namespace OnlineBookstoreInfrastructure
         public DbSet<Customer> Customers { get; set; }
         public DbSet<OnlineBookstoreCore.Models.Order> Orders { get; set; }
         public DbSet<OrderItem> OrderItems { get; set; }
+        public DbSet<Book> MySqlBooks { get; set; }
 
         // MongoDB Client
         private readonly IMongoDatabase _mongoDatabase;
-        public IMongoCollection<Book> Books => _mongoDatabase.GetCollection<Book>("Books");
+        public IMongoCollection<Book> MongoDbBooks => _mongoDatabase.GetCollection<Book>("Books");
         public IMongoCollection<Author> Authors => _mongoDatabase.GetCollection<Author>("Authors");
 
         // Redis Connection
@@ -59,7 +60,7 @@ namespace OnlineBookstoreInfrastructure
         // Custom Methods for MongoDB (e.g., finding a book by ISBN)
         public Book GetBookByIsbn(string isbn)
         {
-            return Books.Find(b => b.ISBN == isbn).FirstOrDefault();
+            return MongoDbBooks.Find(b => b.ISBN == isbn).FirstOrDefault();
         }
     }
 }

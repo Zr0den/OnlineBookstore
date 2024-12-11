@@ -20,8 +20,4 @@
     <ProjectReference Include="..\OnlineBookstoreInfrastructure\OnlineBookstoreInfrastructure.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Controllers\" />
-  </ItemGroup>
-
 </Project>
