@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace OnlineBookstoreInfrastructure.Repositories
 {
-    public class MongoDbBookRepository : IBookService
+    public class MongoDbBookRepository : IBookRepository
     {
         private readonly IMongoCollection<Book> _booksCollection;
 

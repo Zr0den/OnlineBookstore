@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace OnlineBookstoreInfrastructure.Repositories
 {
-    public class MySqlBookRepository : IBookService
+    public class MySqlBookRepository : IBookRepository
     {
         private readonly BookstoreDbContext _dbContext;
 
