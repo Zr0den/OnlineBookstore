@@ -29,9 +29,13 @@ namespace OnlineBookstoreApplication.Services
             await _inventoryRepository.SetStockLevelAsync(isbn, quantity);
         }
 
-        public async Task UpdateStockAsync(string isbn, int quantityChange)
+        public async Task<bool> UpdateStockAsync(string isbn, int quantityChange)
         {
-            await _inventoryRepository.UpdateStockLevelAsync(isbn, quantityChange);
+            // Delegate the call to the repository
+            var stockUpdated = await _inventoryRepository.UpdateStockLevelAsync(isbn, quantityChange);
+
+            // Return the result indicating whether the stock was updated successfully
+            return stockUpdated;
         }
     }
 }

@@ -23,16 +23,17 @@ namespace OnlineBookstoreInfrastructure.Repositories
             await _redisDatabase.StringSetAsync($"BookInventory:{isbn}", stockLevel);
         }
 
-        public async Task UpdateStockLevelAsync(string isbn, int quantity)
+        public async Task<bool> UpdateStockLevelAsync(string isbn, int quantity)
         {
             if (quantity == 0)
             {
                 //Not sure why you would call this with 0, but it is the same as doing nothing so here we are
-                return;
+                return false;
             }
 
             var result = quantity > 0 ? await _redisDatabase.StringIncrementAsync($"BookInventory:{isbn}", quantity) :
                            await _redisDatabase.StringDecrementAsync($"BookInventory:{isbn}", -quantity);
+            return result > 0;
         }
     }
 }
