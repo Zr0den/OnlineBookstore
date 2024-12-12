@@ -1,7 +1,6 @@
 ﻿using OnlineBookstoreCore.Models;
 using OnlineBookstoreCore.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using OnlineBookstoreInfrastructure;
 
 namespace OnlineBookstoreInfrastructure.Repositories
 {

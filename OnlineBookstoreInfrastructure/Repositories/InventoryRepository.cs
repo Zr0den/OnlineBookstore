@@ -1,10 +1,5 @@
 ﻿using OnlineBookstoreCore.Interfaces;
 using StackExchange.Redis;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace OnlineBookstoreInfrastructure.Repositories
 {
@@ -17,25 +12,27 @@ namespace OnlineBookstoreInfrastructure.Repositories
             _redisDatabase = redisConnection.GetDatabase();
         }
 
-        public async Task<int?> GetStockLevelAsync(string bookId)
+        public async Task<int?> GetStockLevelAsync(string isbn)
         {
-            var stock = await _redisDatabase.StringGetAsync($"BookInventory:{bookId}");
+            var stock = await _redisDatabase.StringGetAsync($"BookInventory:{isbn}");
             return stock.HasValue ? (int?)int.Parse(stock) : null;
         }
 
-        public async Task SetStockLevelAsync(string bookId, int stockLevel)
+        public async Task SetStockLevelAsync(string isbn, int stockLevel)
         {
-            await _redisDatabase.StringSetAsync($"BookInventory:{bookId}", stockLevel);
+            await _redisDatabase.StringSetAsync($"BookInventory:{isbn}", stockLevel);
         }
 
-        public async Task DecreaseStockLevelAsync(string bookId, int quantity)
+        public async Task UpdateStockLevelAsync(string isbn, int quantity)
         {
-            await _redisDatabase.StringDecrementAsync($"BookInventory:{bookId}", quantity);
-        }
+            if (quantity == 0)
+            {
+                //Not sure why you would call this with 0, but it is the same as doing nothing so here we are
+                return;
+            }
 
-        public async Task IncreaseStockLevelAsync(string bookId, int quantity)
-        {
-            await _redisDatabase.StringIncrementAsync($"BookInventory:{bookId}", quantity);
+            var result = quantity > 0 ? await _redisDatabase.StringIncrementAsync($"BookInventory:{isbn}", quantity) :
+                           await _redisDatabase.StringDecrementAsync($"BookInventory:{isbn}", -quantity);
         }
     }
 }

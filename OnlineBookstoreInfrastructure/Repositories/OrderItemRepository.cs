@@ -1,11 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using OnlineBookstoreCore.Interfaces;
 using OnlineBookstoreCore.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace OnlineBookstoreInfrastructure.Repositories
 {
@@ -16,6 +11,13 @@ namespace OnlineBookstoreInfrastructure.Repositories
         public OrderItemRepository(BookstoreDbContext dbContext)
         {
             _dbContext = dbContext;
+        }
+
+        public async Task<OrderItem> CreateAsync(OrderItem orderItem)
+        {
+            _dbContext.OrderItems.Add(orderItem);
+            await _dbContext.SaveChangesAsync();
+            return orderItem;
         }
 
         public async Task AddOrderItemsAsync(IEnumerable<OrderItem> orderItems)
@@ -29,6 +31,16 @@ namespace OnlineBookstoreInfrastructure.Repositories
             return await _dbContext.OrderItems
                 .Where(oi => oi.OrderId == orderId)
                 .ToListAsync();
+        }
+
+        public async Task DeleteAsync(int id)
+        {
+            var orderItem = await _dbContext.OrderItems.FindAsync(id);
+            if (orderItem != null)
+            {
+                _dbContext.OrderItems.Remove(orderItem);
+                await _dbContext.SaveChangesAsync();
+            }
         }
     }
 }

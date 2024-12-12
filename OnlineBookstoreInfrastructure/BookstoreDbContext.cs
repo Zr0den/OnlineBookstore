@@ -18,7 +18,7 @@ namespace OnlineBookstoreInfrastructure
 
         // MongoDB Client
         private readonly IMongoDatabase _mongoDatabase;
-        public IMongoCollection<Book> MongoDbBooks => _mongoDatabase.GetCollection<Book>("Books");
+        public IMongoCollection<Book> Books => _mongoDatabase.GetCollection<Book>("Books");
         public IMongoCollection<Author> Authors => _mongoDatabase.GetCollection<Author>("Authors");
 
         // Redis Connection
@@ -41,24 +41,6 @@ namespace OnlineBookstoreInfrastructure
 
             // Initialize Redis connection
             _redisConnection = redisConnection;
-        }
-
-        // Custom Methods for Redis
-        public void UpdateInventory(string bookId, int quantityChange)
-        {
-            // Redis key for book inventory
-            var inventoryKey = $"inventory:{bookId}";
-
-            if (quantityChange > 0)
-                RedisDatabase.StringIncrement(inventoryKey, quantityChange);
-            else
-                RedisDatabase.StringDecrement(inventoryKey, -quantityChange);
-        }
-
-        // Custom Methods for MongoDB
-        public Book GetBookByIsbn(string isbn)
-        {
-            return MongoDbBooks.Find(b => b.ISBN == isbn).FirstOrDefault();
         }
     }
 }

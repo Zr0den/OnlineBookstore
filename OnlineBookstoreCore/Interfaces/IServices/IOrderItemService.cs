@@ -7,9 +7,14 @@ using System.Threading.Tasks;
 
 namespace OnlineBookstoreCore.Interfaces
 {
-    public interface IOrderItemRepository
+    public interface IOrderItemService
     {
+        Task<OrderItem> CreateOrderItemAsync(OrderItem orderItem);
+
+        Task DeleteOrderItemAsync(int id);
+
         Task AddOrderItemsAsync(IEnumerable<OrderItem> orderItems);
+
         Task<IEnumerable<OrderItem>> GetByOrderIdAsync(int orderId);
     }
 }

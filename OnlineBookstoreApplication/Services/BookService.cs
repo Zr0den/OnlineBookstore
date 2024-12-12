@@ -24,5 +24,25 @@ namespace OnlineBookstoreApplication.Services
 
             return await _bookRepository.CreateBookAsync(book);
         }
+
+        public async Task<Book> GetBookByIsbnAsync(string isbn)
+        {
+            return await _bookRepository.GetBookByIsbnAsync(isbn);
+        }
+
+        public async Task<IEnumerable<Book>> GetAllBooksAsync()
+        {
+            return await _bookRepository.GetAllBooksAsync();
+        }
+
+        public async Task<bool> UpdateBookAsync(Book book)
+        {
+            return await _bookRepository.UpdateBookAsync(book);
+        }
+
+        public async Task<bool> DeleteBookAsync(string isbn)
+        {
+            return await _bookRepository.DeleteBookAsync(isbn);
+        }
     }
 }

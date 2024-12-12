@@ -1,11 +1,6 @@
 ﻿using MongoDB.Driver;
 using OnlineBookstoreCore.Interfaces;
 using OnlineBookstoreCore.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace OnlineBookstoreInfrastructure.Repositories
 {
@@ -13,10 +8,9 @@ namespace OnlineBookstoreInfrastructure.Repositories
     {
         private readonly IMongoCollection<Book> _booksCollection;
 
-        public BookRepository(IMongoClient mongoClient, string databaseName)
+        public BookRepository(BookstoreDbContext dbContext)
         {
-            var database = mongoClient.GetDatabase(databaseName);
-            _booksCollection = database.GetCollection<Book>("Books");
+            _booksCollection = dbContext.Books;
         }
 
         public async Task<Book> CreateBookAsync(Book book)
