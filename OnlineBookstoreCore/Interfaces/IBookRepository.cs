@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OnlineBookstoreApplication.Interfaces
+namespace OnlineBookstoreCore.Interfaces
 {
     public interface IBookRepository
     {

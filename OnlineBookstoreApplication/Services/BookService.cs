@@ -1,5 +1,4 @@
-﻿using OnlineBookstoreApplication.Interfaces;
-using OnlineBookstoreCore.Interfaces;
+﻿using OnlineBookstoreCore.Interfaces;
 using OnlineBookstoreCore.Models;
 using System;
 using System.Collections.Generic;
