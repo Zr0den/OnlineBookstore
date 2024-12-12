@@ -28,8 +28,8 @@ namespace OnlineBookstoreInfrastructure
 
         public BookstoreDbContext(
             DbContextOptions<BookstoreDbContext> options,
-            IMongoClient mongoClient, // Inject MongoClient for MongoDB
-            IConnectionMultiplexer redisConnection) // Inject RedisConnection for Redis
+            IMongoClient mongoClient,
+            IConnectionMultiplexer redisConnection)
         {
             // Initialize MySQL DbContext
             var mysqlContext = new DbContext(options);
@@ -44,20 +44,19 @@ namespace OnlineBookstoreInfrastructure
             _redisConnection = redisConnection;
         }
 
-        // Custom Methods for Redis (e.g., for inventory)
+        // Custom Methods for Redis
         public void UpdateInventory(string bookId, int quantityChange)
         {
             // Redis key for book inventory
             var inventoryKey = $"inventory:{bookId}";
 
-            // Update the stock using Redis' INCR/DECR commands for atomic operations
             if (quantityChange > 0)
                 RedisDatabase.StringIncrement(inventoryKey, quantityChange);
             else
                 RedisDatabase.StringDecrement(inventoryKey, -quantityChange);
         }
 
-        // Custom Methods for MongoDB (e.g., finding a book by ISBN)
+        // Custom Methods for MongoDB
         public Book GetBookByIsbn(string isbn)
         {
             return MongoDbBooks.Find(b => b.ISBN == isbn).FirstOrDefault();
