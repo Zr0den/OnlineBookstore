@@ -29,7 +29,7 @@ builder.Services.AddSingleton<IMongoClient>(sp =>
 builder.Services.AddDbContext<BookstoreDbContext>(options =>
 {
     var mysqlSettings = builder.Configuration
-        .GetSection("DatabaseConfigurations:CustomersAndOrders")
+        .GetSection("DatabaseConfigurations:MySqlDB")
         .Get<MySqlSettings>();
 
     options.UseMySql(
