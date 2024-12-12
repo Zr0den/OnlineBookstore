@@ -15,7 +15,6 @@ namespace OnlineBookstoreInfrastructure
         public DbSet<Customer> Customers { get; set; }
         public DbSet<OnlineBookstoreCore.Models.Order> Orders { get; set; }
         public DbSet<OrderItem> OrderItems { get; set; }
-        public DbSet<Book> MySqlBooks { get; set; }
 
         // MongoDB Client
         private readonly IMongoDatabase _mongoDatabase;

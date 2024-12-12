@@ -16,8 +16,8 @@ if (booksAndAuthorsConfig.GetValue<string>("DatabaseType") == "MongoDB")
 {
     builder.Services.AddSingleton<IMongoClient>(sp =>
         new MongoClient(booksAndAuthorsConfig.GetValue<string>("ConnectionString")));
-    builder.Services.AddScoped<IBookRepository, MongoDbBookRepository>(sp =>
-        new MongoDbBookRepository(
+    builder.Services.AddScoped<IBookRepository, BookRepository>(sp =>
+        new BookRepository(
             sp.GetRequiredService<IMongoClient>(),
             booksAndAuthorsConfig.GetValue<string>("DatabaseName")));
 }
@@ -44,6 +44,10 @@ if (inventoryManagementConfig.GetValue<string>("DatabaseType") == "Redis")
     });
 }
 
+builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
+builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+builder.Services.AddScoped<IOrderItemRepository, OrderItemRepository>();
+builder.Services.AddSingleton<IInventoryRepository, InventoryRepository>();
 builder.Services.AddScoped<IBookService, BookService>();
 
 builder.Services.AddControllers();
