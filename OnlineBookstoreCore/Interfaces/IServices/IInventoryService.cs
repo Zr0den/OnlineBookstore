@@ -11,6 +11,6 @@ namespace OnlineBookstoreCore.Interfaces
     {
         Task<int?> GetStockLevelAsync(string isbn);
         Task SetStockLevelAsync(string isbn, int quantity);
-        Task UpdateStockAsync(string isbn, int quantityChange);
+        Task<bool> UpdateStockAsync(string isbn, int quantityChange);
     }
 }

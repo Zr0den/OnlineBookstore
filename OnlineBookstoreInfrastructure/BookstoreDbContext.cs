@@ -7,13 +7,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Order = OnlineBookstoreCore.Models.Order;
 
 namespace OnlineBookstoreInfrastructure
 {
     public class BookstoreDbContext : DbContext
     {
         public DbSet<Customer> Customers { get; set; }
-        public DbSet<OnlineBookstoreCore.Models.Order> Orders { get; set; }
+        public DbSet<Order> Orders { get; set; }
         public DbSet<OrderItem> OrderItems { get; set; }
 
         // MongoDB Client
@@ -33,7 +34,7 @@ namespace OnlineBookstoreInfrastructure
             // Initialize MySQL DbContext
             var mysqlContext = new DbContext(options);
             Customers = mysqlContext.Set<Customer>();
-            Orders = mysqlContext.Set<OnlineBookstoreCore.Models.Order>();
+            Orders = mysqlContext.Set<Order>();
             OrderItems = mysqlContext.Set<OrderItem>();
 
             // Initialize MongoDB connection
