@@ -16,13 +16,15 @@ namespace OnlineBookstoreApplication.Services
     public class OrderService : IOrderService
     {
         private readonly IOrderRepository _orderRepository;
+        private readonly IInventoryService _inventoryService;
         private readonly IDatabase _redisDatabase;
         private const int CacheTtl = 10; // minutes
 
-        public OrderService(IOrderRepository orderRepository, IConnectionMultiplexer redisConnection)
+        public OrderService(IOrderRepository orderRepository, IInventoryService inventoryService, IConnectionMultiplexer redisConnection)
         {
             _orderRepository = orderRepository;
             _redisDatabase = redisConnection.GetDatabase();
+            _inventoryService = inventoryService;
         }
 
         public async Task<Order> CreateOrderAsync(Order order)
@@ -30,6 +32,21 @@ namespace OnlineBookstoreApplication.Services
             if (order.OrderItems == null || !order.OrderItems.Any())
             {
                 throw new ArgumentException("Order must have at least one item.");
+            }
+
+            foreach (var orderItem in order.OrderItems)
+            {
+                var stockLevel = await _inventoryService.GetStockLevelAsync(orderItem.Book.ISBN);
+
+                if (stockLevel < orderItem.Quantity)
+                {
+                    throw new InvalidOperationException($"Insufficient stock for Book ISBN: {orderItem.Book.ISBN}. Requested: {orderItem.Quantity}, Available: {stockLevel}.");
+                }
+            }
+
+            foreach (var orderItem in order.OrderItems)
+            {
+                await _inventoryService.UpdateStockAsync(orderItem.Book.ISBN, -orderItem.Quantity);
             }
 
             Order createdOrder = await _orderRepository.CreateAsync(order);

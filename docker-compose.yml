@@ -38,7 +38,9 @@ services:
     volumes:
       - redis_data:/data
       - ./init-redis.sh:/init-redis.sh
-    command: ["bash", "/init-redis.sh"]
+      - ./redis.conf:/usr/local/etc/redis/redis.conf
+    command:
+      ["bash", "-c", "/init-redis.sh && redis-server /usr/local/etc/redis/redis.conf"]
 
 volumes:
   mongodb_data:

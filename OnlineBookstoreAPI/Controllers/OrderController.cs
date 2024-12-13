@@ -39,5 +39,13 @@ namespace OnlineBookstoreAPI.Controllers
             var orders = await _orderService.GetAllOrdersAsync();
             return Ok(orders);
         }
+
+        [HttpGet("recent")]
+        public async Task<IActionResult> GetRecentOrders()
+        {
+            //Returns the (up to 100 most recent) Orders created within the last 10 minutes
+            var recentOrders = await _orderService.GetRecentOrdersAsync();
+            return Ok(recentOrders);
+        }
     }
 }
