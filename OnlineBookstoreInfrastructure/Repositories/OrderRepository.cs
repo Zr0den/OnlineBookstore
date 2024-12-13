@@ -42,20 +42,21 @@ namespace OnlineBookstoreInfrastructure.Repositories
                 .ToListAsync();
         }
 
-        public async Task UpdateAsync(Order order)
+        public async Task<bool> UpdateAsync(Order order)
         {
             _dbContext.Orders.Update(order);
-            await _dbContext.SaveChangesAsync();
+            return await _dbContext.SaveChangesAsync() > 0;
         }
 
-        public async Task DeleteAsync(int orderId)
+        public async Task<bool> DeleteAsync(int orderId)
         {
             var order = await _dbContext.Orders.FindAsync(orderId);
             if (order != null)
             {
                 _dbContext.Orders.Remove(order);
-                await _dbContext.SaveChangesAsync();
+                return await _dbContext.SaveChangesAsync() > 0;
             }
+            return false;
         }
     }
 }

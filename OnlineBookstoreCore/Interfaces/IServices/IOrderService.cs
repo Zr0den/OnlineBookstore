@@ -12,7 +12,8 @@ namespace OnlineBookstoreCore.Interfaces
         Task<Order> CreateOrderAsync(Order order);
         Task<Order> GetOrderByIdAsync(int id);
         Task<IEnumerable<Order>> GetAllOrdersAsync();
-        Task UpdateOrderAsync(Order order);
-        Task DeleteOrderAsync(int id);
+        Task<bool> UpdateOrderAsync(Order order);
+        Task<bool> DeleteOrderAsync(int id);
+        Task<IEnumerable<Order>> GetRecentOrdersAsync();
     }
 }
